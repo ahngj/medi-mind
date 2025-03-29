@@ -1,12 +1,17 @@
-# 실제 모델 대신 사용하는 임시 추론 함수
 def temp_predict(file_path: str) -> dict:
     """
-    모델이 없는 상태에서 임시로 결과를 반환하는 추론 함수입니다.
-    나중에 실제 모델이 준비되면 이 함수만 교체하면 됩니다.
+    [임시 함수]
+    실제 모델이 연결되기 전까지 테스트용으로 사용하는 추론 함수입니다.
+    
+    Args:
+        file_path (str): 저장된 음성 파일 경로
+
+    Returns:
+        dict: 추론된 클래스와 신뢰도를 포함한 응답
     """
     return {
         "status": "success",
         "message": "This is a TEMPORARY simulated inference result.",
-        "prediction": "Mild Cognitive Impairment",  # 예측 결과 (예시)
-        "confidence": 0.76                          # 예측 신뢰도 (예시)
+        "prediction": "Normal",  # 예측 클래스 (임의 값)
+        "confidence": 0.1                           # 임의의 신뢰도 점수
     }
