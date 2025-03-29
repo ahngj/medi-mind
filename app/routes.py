@@ -1,28 +1,29 @@
-# FastAPI의 APIRouter를 사용하여 라우터(엔드포인트)를 분리 관리
 from fastapi import APIRouter, UploadFile, File
 import os
+import uuid
+from app.services.inference import temp_predict  # 함수 이름 변경
 
-# 라우터 객체 생성 - 이 객체에 경로를 등록한 뒤 main.py에서 include_router로 등록함
 router = APIRouter()
 
-# 파일이 저장될 디렉토리 경로 설정
 UPLOAD_DIR = "static/uploads"
-
-# 디렉토리가 없을 경우 자동으로 생성
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
+@router.post("/predict")
+async def predict_audio(file: UploadFile = File(...)):
+    """
+    사용자가 보낸 음성 파일을 서버에 저장한 뒤,
+    임시 추론 함수(temp_predict)를 호출하여 결과 반환.
+    """
+    # UUID를 붙인 고유한 파일 이름 생성
+    filename = f"{uuid.uuid4()}_{file.filename}"
+    file_path = os.path.join(UPLOAD_DIR, filename)
 
-# [POST] /upload 엔드포인트 정의
-# 사용자가 파일을 보낼 때 'file' 필드로 업로드
-@router.post("/upload")
-async def upload_audio(file: UploadFile = File(...)):
-    # 업로드된 파일의 저장 경로 구성
-    file_path = os.path.join(UPLOAD_DIR, file.filename)
-
-    # 파일 내용을 비동기적으로 읽고 저장
+    # 파일 저장
     with open(file_path, "wb") as f:
         content = await file.read()
         f.write(content)
 
-    # 업로드 성공 메시지 반환 (JSON)
-    return {"message": f"{file.filename} uploaded successfully"}
+    # 임시 추론 함수 호출 (모델 없이 시뮬레이션)
+    result = temp_predict(file_path)
+
+    return result
