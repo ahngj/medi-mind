@@ -1,7 +1,12 @@
 from fastapi import FastAPI
 from app.routes import predict_router, session_router
 
-app = FastAPI()
+app = FastAPI(
+    title="Medi-Mind",
+    description="사용자의 음성 데이터를 기반으로 인지기능 상태를 분석",
+    version="0.1.0"
+)
 
+# 라우터 등록
 app.include_router(predict_router)
 app.include_router(session_router)
