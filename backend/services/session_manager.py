@@ -19,7 +19,7 @@ async def save_uploaded_file(user_path: str, file: UploadFile):
         buffer.write(await file.read())
     return m4a_path
 
-def convert_to_wma(m4a_path: str) -> str:
+def convert_to_wav(m4a_path: str) -> str:
     base_dir = os.path.dirname(m4a_path)
     base_name = os.path.splitext(os.path.basename(m4a_path))[0]
     wma_path = os.path.join(base_dir, base_name + ".wav")
