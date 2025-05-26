@@ -22,13 +22,13 @@ async def save_uploaded_file(user_path: str, file: UploadFile):
 def convert_to_wma(m4a_path: str) -> str:
     base_dir = os.path.dirname(m4a_path)
     base_name = os.path.splitext(os.path.basename(m4a_path))[0]
-    wma_path = os.path.join(base_dir, base_name + ".wma")
+    wma_path = os.path.join(base_dir, base_name + ".wav")
 
     # 변환
     audio = AudioSegment.from_file(m4a_path, format="m4a")
-    audio.export(wma_path, format="wma")
+    audio.export(wma_path, format="wav")
 
-    return wma_path
+    return wav_path
 
 def delete_user_directory(user_id: str):
     user_path = os.path.join(UPLOAD_BASE, user_id)
