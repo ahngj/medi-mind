@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import {
+  View, Text, TouchableOpacity, StyleSheet,
+  Platform, KeyboardAvoidingView, ScrollView
+} from 'react-native';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 import { Audio } from 'expo-av';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function TutorialPage({navigation}) {
+export default function TutorialPage({ navigation }) {
   const [recording, setRecording] = useState(null);
   const [recordedURI, setRecordedURI] = useState(null);
 
@@ -50,69 +55,116 @@ export default function TutorialPage({navigation}) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>🎤 예시 문장을 따라 말해보세요</Text>
-      <Text style={styles.sample}>“오늘은 날씨가 맑습니다.”</Text>
-
-      <TouchableOpacity
-        style={styles.recordButton}
-        onPress={recording ? stopRecording : startRecording}
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFDE7' }}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0}
       >
-        <Text style={styles.buttonText}>
-          {recording ? '⏹️ 녹음 중지' : '🎙️ 녹음 시작'}
-        </Text>
-      </TouchableOpacity>
+        <ScrollView
+          contentContainerStyle={styles.container}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
+        >
+          <View style={styles.inner}>
+            <Text style={styles.guide}>📘 연습 문제입니다</Text>
+            <View style={styles.inner2}>
+              <Text style={styles.title}>🎤 예시 문장을 따라 말해보세요</Text>
+            <Text style={styles.instruction}>🎧 녹음 버튼을 누른 후 예시 문장을 말하세요</Text>
+            <Text style={styles.sample}>“오늘은 날씨가 맑습니다.”</Text>
 
-      {recordedURI && (
-        <Text style={styles.result}>✅ 녹음 완료!</Text>
-      )}
+            <TouchableOpacity
+              style={styles.recordButton}
+              onPress={recording ? stopRecording : startRecording}
+            >
+              <Text style={styles.buttonText}>
+                {recording ? '⏹️ 녹음 중지' : '🎙️ 녹음 시작'}
+              </Text>
+            </TouchableOpacity>
 
-<TouchableOpacity style={styles.recordButton} 
-onPress={function(){navigation.navigate('Repeat')}}>
-      <Text style={styles.buttonText}>
-        테스트 시작
-      </Text>
-      </TouchableOpacity>
-    </View>
-    
+            {recordedURI && (
+              <Text style={styles.result}>✅ 녹음 완료!</Text>
+            )}
+
+            <TouchableOpacity
+              style={styles.nextButton}
+              onPress={() => navigation.navigate('Repeat1')}
+            >
+              <Text style={styles.buttonText}>테스트 시작</Text>
+            </TouchableOpacity>
+            </View>
+            
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#FAFAF0',
-    padding: 30,
-    justifyContent: 'center',
+    flexGrow: 1,
+    paddingVertical: 50,
+    paddingHorizontal: 24,
+    alignItems: 'center',
+    backgroundColor: '#FFFDE7',
+  },
+  inner: {
+    width: '100%',
     alignItems: 'center',
   },
-  title: {
-    fontSize: 22,
+  inner2:{
+    marginTop:150,
+  },
+  guide: {
+    fontSize: RFPercentage(3.8),
     fontWeight: 'bold',
+    color: '#333',
     marginBottom: 20,
-    color: '#111',
+  },
+  title: {
+    fontSize: RFPercentage(3),
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#333',
+    textAlign: 'center',
+  },
+  instruction: {
+    fontSize: 16,
+    color: '#666',
+    marginBottom: 12,
     textAlign: 'center',
   },
   sample: {
-    fontSize: 20,
+    fontSize: RFPercentage(3.2),
     marginBottom: 40,
     color: '#333',
+    textAlign: 'center',
   },
   recordButton: {
-    backgroundColor: '#4A90E2',
-    paddingVertical: 14,
-    paddingHorizontal: 30,
-    borderRadius: 12,
+    backgroundColor: '#FFD54F',
+    paddingVertical: 16,
+    paddingHorizontal: 40,
+    borderRadius: 14,
     marginBottom: 20,
+    alignItems: 'center',
+  },
+  nextButton: {
+    backgroundColor: '#90CAF9',
+    paddingVertical: 16,
+    paddingHorizontal: 40,
+    borderRadius: 14,
+    marginTop: 10,
+    alignItems: 'center',
   },
   buttonText: {
-    fontSize: 18,
-    color: '#fff',
+    fontSize: RFPercentage(2.5),
     fontWeight: 'bold',
+    color: '#333',
   },
   result: {
-    fontSize: 14,
+    fontSize: RFPercentage(2),
     marginTop: 10,
-    color: '#444',
+    color: '#4CAF50',
   },
 });

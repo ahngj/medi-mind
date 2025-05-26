@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
-  View, Text, TouchableOpacity, StyleSheet, Alert,
+  View, Text, StyleSheet, TouchableOpacity, Alert,
   ScrollView, KeyboardAvoidingView, Platform
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,19 +8,18 @@ import { Audio } from 'expo-av';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import useRecordingsStore from '../store/recordingsStore';
 
-export default function CalculationPage({ navigation }) {
-  const task = '100에서 3을 계속 빼서 말하세요 (100, 97, 94 ...)';
-  const [recording, setRecording] = useState(null);
-  const [recordingUri, setRecordingUri] = useState(null);
-  const timerRef = useRef(null);
+export default function FluencyTemplatePage({ sentence, nextScreen, navigation }) {
   const recordingRef = useRef(null);
+  const timerRef = useRef(null);
+  const [isRecording, setIsRecording] = useState(false);
+  const [recorded, setRecorded] = useState(false);
   const addRecording = useRecordingsStore((state) => state.addRecording);
 
   const startRecording = async () => {
     try {
-      const { granted } = await Audio.requestPermissionsAsync();
-      if (!granted) {
-        Alert.alert('권한 오류', '마이크 접근 권한이 필요합니다.');
+      const permission = await Audio.requestPermissionsAsync();
+      if (!permission.granted) {
+        Alert.alert("마이크 권한이 필요합니다");
         return;
       }
 
@@ -34,33 +33,38 @@ export default function CalculationPage({ navigation }) {
       await newRecording.startAsync();
 
       recordingRef.current = newRecording;
-      setRecording(newRecording);
+      setIsRecording(true);
 
       timerRef.current = setTimeout(() => {
         stopRecording();
-        Alert.alert('⏱️ 녹음 완료', '1분이 지나 녹음이 종료되었습니다.');
+        setTimeout(() => {
+          Alert.alert("⏱️ 녹음 완료", "1분이 지나 자동으로 녹음이 종료되었습니다.");
+        }, 100);
       }, 60000);
-    } catch (error) {
-      console.error('녹음 시작 실패:', error);
-      Alert.alert('오류', '녹음 시작에 실패했습니다.');
+    } catch (err) {
+      console.error("녹음 시작 오류:", err);
+      Alert.alert("녹음 시작 오류");
     }
   };
 
   const stopRecording = async () => {
     try {
-      if (timerRef.current) clearTimeout(timerRef.current);
       if (!recordingRef.current) return;
+
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
 
       await recordingRef.current.stopAndUnloadAsync();
       const uri = recordingRef.current.getURI();
-      setRecordingUri(uri);
-      addRecording('Cal', uri);
-
+      addRecording("Fluency", uri);
+      setRecorded(true);
+      setIsRecording(false);
       recordingRef.current = null;
-      setRecording(null);
-    } catch (error) {
-      console.error('녹음 중지 실패:', error);
-      Alert.alert('오류', '녹음 중지에 실패했습니다.');
+    } catch (err) {
+      console.error("녹음 중지 오류:", err);
+      Alert.alert("녹음 중지 오류");
     }
   };
 
@@ -77,35 +81,42 @@ export default function CalculationPage({ navigation }) {
           keyboardDismissMode="on-drag"
         >
           <View style={styles.inner}>
-            <Text style={styles.title}>🧮 연산 테스트</Text>
+            <Text style={styles.title}>🗣️ 언어 유창성 테스트</Text>
             <View style={styles.inner2}>
-               <View style={styles.taskContainer}>
-              <Text style={styles.instruction}>🎧 녹음 버튼을 누른 후 아래 문장을 따라 계산을 말하세요</Text>
+              <View style={styles.taskContainer}>
+              <Text style={styles.instruction}>🎧 녹음 버튼을 누른 후 아래 문장을 말해보세요</Text>
               <View style={styles.hr} />
-              <Text style={styles.taskText}>{task}</Text>
+              <Text style={styles.taskText}>{sentence}</Text>
 
               <TouchableOpacity
                 style={styles.recordButton}
-                onPress={recording ? stopRecording : startRecording}
+                onPress={isRecording ? stopRecording : startRecording}
               >
                 <Text style={styles.buttonText}>
-                  {recording ? '⏹️ 중지' : '🎙️ 녹음'}
+                  {isRecording ? "⏹️ 중지" : "🎙️ 녹음"}
                 </Text>
               </TouchableOpacity>
 
-              {recordingUri && (
+              {recorded && (
                 <Text style={styles.uriText}>녹음 완료 ✔️</Text>
               )}
             </View>
 
             <TouchableOpacity
               style={styles.nextButton}
-              onPress={() => navigation.navigate('Story1')}
+              onPress={() => {
+                if (!recorded) {
+                  Alert.alert("녹음 후 진행 가능합니다");
+                  return;
+                }
+                navigation.navigate(nextScreen);
+              }}
             >
-              <Text style={styles.buttonText}>다음으로</Text>
+              <Text style={styles.buttonText}>다음</Text>
             </TouchableOpacity>
+            
             </View>
-           
+            
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -127,10 +138,8 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   inner2:{
-
     marginTop:130,
   },
-  
   title: {
     fontSize: RFPercentage(3.2),
     fontWeight: 'bold',

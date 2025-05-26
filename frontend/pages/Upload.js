@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import useRecordingsStore from './store/recordingsStore';
 import useUserStore from './store/userStore';
-import useResultStore from './store/resultStore'; // ✅ 결과 저장소
+import useResultStore from './store/resultStore';
 
 export default function UploadPage({ navigation }) {
   const recordings = useRecordingsStore((state) => state.recordings);
@@ -11,7 +11,6 @@ export default function UploadPage({ navigation }) {
 
   const prepareUploadData = async () => {
     const data = new FormData();
-
     data.append('user_name', user.name);
     data.append('user_age', String(user.age));
     data.append('user_gender', user.gender);
@@ -28,18 +27,11 @@ export default function UploadPage({ navigation }) {
     }
 
     try {
-      // const response = await fetch('http://<YOUR_BACKEND>/upload', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'multipart/form-data' },
-      //   body: data,
-      // });
-
+      // 실제 업로드 구현 시 주석 해제
+      // const response = await fetch('<서버주소>', { method: 'POST', body: data });
       // const result = await response.json();
-      // console.log('✅ 백엔드 결과:', result);
+      // setResults(result);
 
-      // setResults(result); // Zustand에 결과 저장
-
-      // 백엔드 없이 더미 결과 사용
       const mockResult = {
         Repeat: { prediction: '정상', confidence: 0.94 },
         Image: { prediction: '주의', confidence: 0.72 },
@@ -57,13 +49,19 @@ export default function UploadPage({ navigation }) {
   };
 
   useEffect(() => {
-    prepareUploadData();
+    const timer = setTimeout(() => {
+      prepareUploadData();
+    }, 1500);
+
+    return () => clearTimeout(timer);
   }, []);
+  
 
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color="#4A90E2" />
-      <Text style={styles.text}>데이터를 정리하고 있습니다...</Text>
+    
+      <ActivityIndicator size="large" color="#FFD54F" />
+      <Text style={styles.text}>🔄 데이터 정리 중입니다...</Text>
     </View>
   );
 }
@@ -73,12 +71,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FAFAF0',
+    backgroundColor: '#FFFDE7',
     padding: 24,
   },
   text: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#555',
     marginTop: 20,
+    textAlign: 'center',
   },
 });

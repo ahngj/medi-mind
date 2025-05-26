@@ -4,7 +4,6 @@ import useResultStore from './store/resultStore';
 
 export default function ResultPage({ navigation }) {
   const results = useResultStore((state) => state.results);
-
   const totalRisk = Object.values(results).reduce((acc, cur) => acc + cur.confidence, 0) / Object.keys(results).length;
 
   return (
@@ -36,7 +35,8 @@ export default function ResultPage({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FAFAF0',
+    backgroundColor: '#FFFDE7',
+    marginTop:40,
     padding: 20,
   },
   title: {
@@ -44,9 +44,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
+    color: '#111',
   },
   overallBox: {
-    backgroundColor: '#FFE8CC',
+    backgroundColor: '#FFE082',
     borderRadius: 12,
     padding: 16,
     marginBottom: 20,
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: '#cc6600',
+    color: '#B85C00',
   },
   resultCard: {
     backgroundColor: '#ffffff',
@@ -72,6 +73,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 6,
+    color: '#333',
   },
   prediction: {
     fontSize: 16,
@@ -82,7 +84,7 @@ const styles = StyleSheet.create({
     color: '#888',
   },
   button: {
-    backgroundColor: '#4A90E2',
+    backgroundColor: '#90CAF9',
     paddingVertical: 14,
     borderRadius: 12,
     alignItems: 'center',
@@ -90,7 +92,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    color: '#fff',
+    color: '#333',
     fontWeight: 'bold',
   },
 });
