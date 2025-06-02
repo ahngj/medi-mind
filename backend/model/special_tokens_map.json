@@ -1,6 +1,15 @@
+<<<<<<< HEAD
 {
   "bos_token": "<s>",
   "eos_token": "</s>",
   "pad_token": "<pad>",
   "unk_token": "<unk>"
 }
+=======
+{
+  "bos_token": "<s>",
+  "eos_token": "</s>",
+  "pad_token": "<pad>",
+  "unk_token": "<unk>"
+}
+>>>>>>> 57a5bf9f8c14016fc41945ad1ba65cfb2e7542c3

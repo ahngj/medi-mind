@@ -21,6 +21,7 @@ def save_and_convert(file: UploadFile, user_id: str) -> str:
     if user_id not in SESSIONS:
         raise ValueError("Invalid user_id")
 
+<<<<<<< HEAD
     user_path = SESSIONS[user_id]["path"]
     original_path = os.path.join(user_path, file.filename)
     with open(original_path, "wb") as f:
@@ -42,6 +43,18 @@ def get_session_files(user_id: str) -> List[str]:
     if user_id not in SESSIONS:
         raise ValueError("Invalid user_id")
     return SESSIONS[user_id]["files"]
+=======
+def convert_to_wav(m4a_path: str) -> str:
+    base_dir = os.path.dirname(m4a_path)
+    base_name = os.path.splitext(os.path.basename(m4a_path))[0]
+    wma_path = os.path.join(base_dir, base_name + ".wav")
+
+    # 변환
+    audio = AudioSegment.from_file(m4a_path, format="m4a")
+    audio.export(wma_path, format="wav")
+
+    return wav_path
+>>>>>>> 57a5bf9f8c14016fc41945ad1ba65cfb2e7542c3
 
 def cleanup_user_session(user_id: str):
     if user_id in SESSIONS:
