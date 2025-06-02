@@ -4,21 +4,34 @@ import useResultStore from './store/resultStore';
 
 export default function ResultPage({ navigation }) {
   const results = useResultStore((state) => state.results);
-  const totalRisk = Object.values(results).reduce((acc, cur) => acc + cur.confidence, 0) / Object.keys(results).length;
+
+  const validConfidences = Object.values(results)
+    .map((cur) => (typeof cur.confidence === 'number' ? cur.confidence : 0));
+  const totalRisk = validConfidences.reduce((acc, cur) => acc + cur, 0) / validConfidences.length;
+
+  const pageNameMap = {
+  Repeat: '문장 말하기 과제',
+  Image: '그림 판단 과제',
+  Fluency: '언어 유창성 과제',
+  Cal: '계산 과제',
+  Story: '이야기 과제',
+  };
 
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>🧠 검사 결과 요약</Text>
 
       <View style={styles.overallBox}>
-        <Text style={styles.overallText}>총 평균 위험도: {Math.round(totalRisk * 100)}%</Text>
+        <Text style={styles.overallText}>총 평균 위험도: {(totalRisk * 100).toFixed(1)}%</Text>
       </View>
 
       {Object.entries(results).map(([page, result]) => (
         <View key={page} style={styles.resultCard}>
-          <Text style={styles.pageTitle}>{page}</Text>
+          <Text style={styles.pageTitle}>{pageNameMap[page] || page}</Text>
           <Text style={styles.prediction}>예측: {result.prediction}</Text>
-          <Text style={styles.confidence}>신뢰도: {Math.round(result.confidence * 100)}%</Text>
+          <Text style={styles.confidence}>
+            신뢰도: {typeof result.confidence === 'number' ? (result.confidence * 100).toFixed(1) : '0.0'}%
+          </Text>
         </View>
       ))}
 
@@ -36,7 +49,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFDE7',
-    marginTop:40,
+    marginTop: 40,
     padding: 20,
   },
   title: {

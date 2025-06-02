@@ -69,7 +69,7 @@ export default function RepeatTemplatePage({ sentence, nextScreen, navigation })
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFDE7' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#F5FAFF' }}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -125,32 +125,32 @@ const styles = StyleSheet.create({
     paddingVertical: 50,
     paddingHorizontal: 24,
     alignItems: 'center',
-    backgroundColor: '#FFFDE7',
+    backgroundColor: '#F5FAFF', // 연블루 배경
   },
   inner: {
     width: '100%',
     alignItems: 'center',
     marginTop: 100,
   },
-  inner2:{
-    marginTop:130,
+  inner2: {
+    marginTop: 130,
   },
   title: {
     fontSize: RFPercentage(3.2),
     fontWeight: 'bold',
     marginBottom: 10,
-    color: '#111',
+    color: '#0D47A1', // 메인 타이틀 컬러
     textAlign: 'center',
   },
   instruction: {
     fontSize: 16,
-    color: '#666',
+    color: '#5C6BC0', // 보조 텍스트
     marginBottom: 10,
     textAlign: 'center',
   },
   hr: {
     height: 1,
-    backgroundColor: '#CCC',
+    backgroundColor: '#BBDEFB',
     marginVertical: 12,
     width: '80%',
     alignSelf: 'center',
@@ -159,11 +159,11 @@ const styles = StyleSheet.create({
   taskText: {
     fontSize: RFPercentage(3),
     marginBottom: 30,
-    color: '#333',
+    color: '#0D47A1',
     textAlign: 'center',
   },
   recordButton: {
-    backgroundColor: '#FFD54F',
+    backgroundColor: '#BAA5FF', // 연보라
     paddingVertical: 16,
     paddingHorizontal: 40,
     borderRadius: 14,
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   nextButton: {
-    backgroundColor: '#90CAF9',
+    backgroundColor: '#90CAF9', // 연블루
     paddingVertical: 16,
     paddingHorizontal: 40,
     borderRadius: 14,
@@ -181,11 +181,12 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: RFPercentage(2.5),
     fontWeight: 'bold',
-    color: '#333',
+    color: '#ffffff',
   },
   uriText: {
     fontSize: RFPercentage(2),
     marginTop: 10,
-    color: '#4CAF50',
+    color: '#0D47A1',
+    textAlign: 'center',
   },
 });

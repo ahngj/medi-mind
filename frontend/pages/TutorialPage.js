@@ -55,7 +55,7 @@ export default function TutorialPage({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFDE7' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#F5FAFF' }}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -83,7 +83,7 @@ export default function TutorialPage({ navigation }) {
             </TouchableOpacity>
 
             {recordedURI && (
-              <Text style={styles.result}>✅ 녹음 완료!</Text>
+              <Text style={styles.result}> 녹음 완료!</Text>
             )}
 
             <TouchableOpacity
@@ -107,42 +107,42 @@ const styles = StyleSheet.create({
     paddingVertical: 50,
     paddingHorizontal: 24,
     alignItems: 'center',
-    backgroundColor: '#FFFDE7',
+    backgroundColor: '#F5FAFF', // 연블루 배경
   },
   inner: {
     width: '100%',
     alignItems: 'center',
   },
-  inner2:{
-    marginTop:150,
+  inner2: {
+    marginTop: 150,
   },
   guide: {
     fontSize: RFPercentage(3.8),
     fontWeight: 'bold',
-    color: '#333',
+    color: '#0D47A1', // 진한 보라
     marginBottom: 20,
   },
   title: {
     fontSize: RFPercentage(3),
     fontWeight: 'bold',
     marginBottom: 10,
-    color: '#333',
+    color: '#0D47A1', // 진한 블루
     textAlign: 'center',
   },
   instruction: {
     fontSize: 16,
-    color: '#666',
+    color: '#5C6BC0', // 연보라-블루 중간
     marginBottom: 12,
     textAlign: 'center',
   },
   sample: {
     fontSize: RFPercentage(3.2),
     marginBottom: 40,
-    color: '#333',
+    color: '#0D47A1',
     textAlign: 'center',
   },
   recordButton: {
-    backgroundColor: '#FFD54F',
+    backgroundColor: '#BAA5FF', // 연보라 버튼
     paddingVertical: 16,
     paddingHorizontal: 40,
     borderRadius: 14,
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   nextButton: {
-    backgroundColor: '#90CAF9',
+    backgroundColor: '#90CAF9', // 연블루 보조 버튼
     paddingVertical: 16,
     paddingHorizontal: 40,
     borderRadius: 14,
@@ -160,11 +160,14 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: RFPercentage(2.5),
     fontWeight: 'bold',
-    color: '#333',
+    color: '#ffffff',
   },
   result: {
     fontSize: RFPercentage(2),
     marginTop: 10,
-    color: '#4CAF50',
+    color: '#0D47A1',
+    textAlign:'center',
+    
   },
 });
+

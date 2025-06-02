@@ -1,38 +1,50 @@
-import uuid
+# services/session_manager.py
 import os
+import uuid
 import shutil
+from typing import Dict, List
 from fastapi import UploadFile
 from pydub import AudioSegment
 
-# 업로드 파일 저장 루트
 UPLOAD_BASE = "backend/uploads"
+SESSIONS: Dict[str, Dict] = {}
 
-def create_user_directory():
-    user_id = str(uuid.uuid4())
+def create_user_session(name: str, age: int, gender: str, timestamp: str) -> str:
+    user_id = f"{name}_{age}_{gender}_{timestamp}"
     user_path = os.path.join(UPLOAD_BASE, user_id)
     os.makedirs(user_path, exist_ok=True)
-    return user_id, user_path
+    SESSIONS[user_id] = {"path": user_path, "files": []}
+    print(f"[📁] 유저 디렉토리 생성: {user_path}")
+    return user_id
 
-async def save_uploaded_file(user_path: str, file: UploadFile):
-    m4a_path = os.path.join(user_path, file.filename)
-    with open(m4a_path, "wb") as buffer:
-        buffer.write(await file.read())
-    return m4a_path
+def save_and_convert(file: UploadFile, user_id: str) -> str:
+    if user_id not in SESSIONS:
+        raise ValueError("Invalid user_id")
 
-def convert_to_wma(m4a_path: str) -> str:
-    base_dir = os.path.dirname(m4a_path)
-    base_name = os.path.splitext(os.path.basename(m4a_path))[0]
-    wma_path = os.path.join(base_dir, base_name + ".wma")
+    user_path = SESSIONS[user_id]["path"]
+    original_path = os.path.join(user_path, file.filename)
+    with open(original_path, "wb") as f:
+        f.write(file.file.read())
+    print(f"[📥] 파일 저장 완료: {original_path}")
 
-    # 변환
-    audio = AudioSegment.from_file(m4a_path, format="m4a")
-    audio.export(wma_path, format="wma")
+    try:
+        audio = AudioSegment.from_file(original_path, format="3gp")
+        wav_path = original_path.rsplit(".", 1)[0] + ".wav"
+        audio.export(wav_path, format="wav", parameters=["-acodec", "pcm_s16le"])
+        print(f"[🔄] wav 변환 완료: {wav_path}")
+        SESSIONS[user_id]["files"].append(wav_path)
+        return wav_path
+    except Exception as e:
+        print(f"[❌] 변환 오류: {e}")
+        raise
 
-    return wma_path
+def get_session_files(user_id: str) -> List[str]:
+    if user_id not in SESSIONS:
+        raise ValueError("Invalid user_id")
+    return SESSIONS[user_id]["files"]
 
-def delete_user_directory(user_id: str):
-    user_path = os.path.join(UPLOAD_BASE, user_id)
-    if os.path.exists(user_path):
-        shutil.rmtree(user_path)
-        return True
-    return False
+def cleanup_user_session(user_id: str):
+    if user_id in SESSIONS:
+        shutil.rmtree(SESSIONS[user_id]["path"], ignore_errors=True)
+        del SESSIONS[user_id]
+        print(f"[🧹] 디렉토리 삭제: {user_id}")

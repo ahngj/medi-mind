@@ -44,7 +44,7 @@ export default function AppMainPage({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFDE7' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#F5FAFF' }}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     paddingVertical: 50,
     paddingHorizontal: 24,
     alignItems: 'center',
-    backgroundColor: '#FFFDE7',
+    backgroundColor: '#F5FAFF', // 밝은 블루톤
   },
   MainView: {
     width: '100%',
@@ -137,12 +137,12 @@ const styles = StyleSheet.create({
     fontSize: RFPercentage(4.5),
     fontWeight: 'bold',
     marginBottom: 30,
-    color: '#333',
+    color: '#0D47A1',
   },
   warningBox: {
-    backgroundColor: '#FFF3CD',
-    borderLeftWidth: 6,
-    borderLeftColor: '#FFC107',
+    backgroundColor: '#F3EFFF',
+    borderWidth:1,
+    borderColor: '#B39DDB',
     padding: 20,
     borderRadius: 12,
     width: '100%',
@@ -151,12 +151,12 @@ const styles = StyleSheet.create({
   warningText1: {
     fontSize: RFPercentage(2.8),
     fontWeight: 'bold',
-    color: '#333',
+    color: '#0D47A1',
     marginBottom: 12,
   },
   warningText: {
     fontSize: RFPercentage(2.4),
-    color: '#555',
+    color: '#1565C0',
     marginBottom: 8,
     lineHeight: RFPercentage(3.4),
   },
@@ -164,21 +164,21 @@ const styles = StyleSheet.create({
     fontSize: RFPercentage(3),
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#222',
+    color: '#0D47A1',
   },
   input: {
     width: '100%',
     height: RFPercentage(7),
-    borderColor: '#ccc',
+    borderColor: '#90CAF9',
     borderWidth: 1,
     borderRadius: 10,
     paddingHorizontal: 15,
     marginBottom: 16,
     fontSize: RFPercentage(2.5),
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
   },
   inputError: {
-    borderColor: '#FF0000',
+    borderColor: '#D32F2F',
   },
   genderContainer: {
     flexDirection: 'row',
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
   },
   genderButton: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#90CAF9',
     borderRadius: 10,
     paddingVertical: 12,
     paddingHorizontal: 28,
@@ -195,22 +195,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   genderSelected: {
-    borderColor: '#FFA000',
-    backgroundColor: '#FFF8E1',
+    borderColor: '#1976D2',
+    backgroundColor: '#F3EFFF',
   },
   genderText: {
     fontSize: RFPercentage(2.5),
-    color: '#333',
+    color: '#0D47A1',
     fontWeight: 'bold',
   },
   errorText: {
-    color: '#FF0000',
+    color: '#D32F2F',
     fontSize: RFPercentage(2),
     marginTop: -10,
     marginBottom: 10,
   },
   testButton: {
-    backgroundColor: '#FFD54F',
+    backgroundColor: '#90CAF9',
     paddingVertical: 20,
     paddingHorizontal: 60,
     borderRadius: 14,
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   },
   testButtonText: {
     fontSize: RFPercentage(2.8),
-    color: '#333',
+    color: '#fff',
     fontWeight: 'bold',
   },
 });

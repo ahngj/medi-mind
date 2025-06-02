@@ -71,7 +71,7 @@ export default function ImageTemplatePage({ sentence, imageSource, nextScreen, n
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFDE7' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#F5FAFF' }}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     paddingVertical: 50,
     paddingHorizontal: 24,
     alignItems: 'center',
-    backgroundColor: '#FFFDE7',
+    backgroundColor: '#F5FAFF',
   },
   inner: {
     width: '100%',
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
-    color: '#111',
+    color: '#0D47A1',
   },
   imageWrapper: {
     backgroundColor: '#fff',
@@ -171,13 +171,13 @@ const styles = StyleSheet.create({
   },
   instruction: {
     fontSize: 16,
-    color: '#666',
+    color: '#5C6BC0',
     marginBottom: 10,
     textAlign: 'center',
   },
   hr: {
     height: 1,
-    backgroundColor: '#CCC',
+    backgroundColor: '#BBDEFB',
     marginVertical: 12,
     width: '80%',
     alignSelf: 'center',
@@ -186,11 +186,11 @@ const styles = StyleSheet.create({
   taskText: {
     fontSize: RFPercentage(3),
     marginBottom: 30,
-    color: '#333',
+    color: '#0D47A1',
     textAlign: 'center',
   },
   recordButton: {
-    backgroundColor: '#FFD54F',
+    backgroundColor: '#BAA5FF',
     paddingVertical: 16,
     paddingHorizontal: 40,
     borderRadius: 14,
@@ -208,12 +208,12 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: RFPercentage(2.5),
     fontWeight: 'bold',
-    color: '#333',
+    color: '#ffffff',
   },
   uriText: {
     fontSize: RFPercentage(2),
     marginTop: 10,
-    color: 'green',
+    color: '#0D47A1',
     textAlign: 'center',
   },
 });
